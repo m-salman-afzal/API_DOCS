@@ -1,0 +1,240 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "VS FCH",
+        "version": "0.1.0"
+    },
+    "tags": [
+        {
+            "name": "Formulary"
+        }
+    ],
+    "paths": {
+        "/formulary/add": {
+            "post": {
+                "tags": [
+                    "Formulary"
+                ],
+                "description": "Add single formulary",
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/formularyAddRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Formulary entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/formularyAddResponseBody"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/formulary/": {
+            "get": {
+                "tags": [
+                    "Formulary"
+                ],
+                "description": "Get many formulary",
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "currentPage",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "perPage",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pagination info and Formulary entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/paginatedFormularyEntity"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "No data found"
+                    }
+                }
+            }
+        },
+        "/formulary/edit/{formularyId}": {
+            "put": {
+                "tags": [
+                    "Formulary"
+                ],
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "description": "Edit single formulary",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "formularyId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/formularyUpdateRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Updated formulary entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "./Entities.json#/formularyEntity"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "No data found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "Authorization": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization"
+            }
+        },
+        "schemas": {
+            "paginatedFormularyEntity": {
+                "type": "object",
+                "properties": {
+                    "paginationInfo": {
+                        "type": "object",
+                        "properties": {
+                            "totalItems": {
+                                "type": "number"
+                            },
+                            "totalPages": {
+                                "type": "number"
+                            },
+                            "currentPage": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "rows": {
+                        "type": "array",
+                        "items": {
+                            "oneOf": [
+                                {
+                                    "$ref": "./Entities.json#/formularyEntity"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "formularyAddRequestBody": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "strength",
+                    "unit",
+                    "formulation",
+                    "release",
+                    "drugClass",
+                    "isStock"
+                ],
+                "allOf": [
+                    {
+                        "$ref": "./Entities.json#/formularyEntity"
+                    }
+                ]
+            },
+            "formularyAddResponseBody": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "properties": {
+                            "formularyId": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "./Entities.json#/formularyEntity"
+                    }
+                ]
+            },
+            "formularyUpdateRequestBody": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "./Entities.json#/formularyEntity"
+                    }
+                ]
+            }
+        }
+    }
+}
