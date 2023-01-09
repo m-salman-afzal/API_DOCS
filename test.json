@@ -1,139 +1,122 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-        "title": "VS FCH",
-        "version": "0.1.0"
-    },
-    "tags": [
-        {
-            "name": "Formulary"
-        }
-    ],
     "paths": {
-        "/formulary/add": {
+        "/auth/login": {
             "post": {
-                "tags": [
-                    "Formulary"
-                ],
-                "description": "Add single formulary",
-                "security": [
-                    {
-                        "Authorization": []
-                    }
-                ],
+                "tags": ["Authorization"],
+                "description": "Login User",
+                "requestBody": {
+                    "required": true,
+                    "content": {"application/json": {"schema": {"$ref": "#/components/schemas/loginRequestBody"}}}
+                },
+                "responses": {
+                    "200": {
+                        "description": "Token and user",
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/loginResponseBody"}}}
+                    },
+                    "400": {"description": "Bad request"},
+                    "401": {"description": "Unauthorized"},
+                    "403": {"description": "Forbidden"},
+                    "406": {"description": "Password expired"}
+                }
+            }
+        },
+        "/auth/forgotPassword": {
+            "post": {
+                "tags": ["Authorization"],
+                "description": "Forgot password",
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/formularyAddRequestBody"
-                            }
-                        }
+                        "application/json": {"schema": {"$ref": "#/components/schemas/forgotPasswordRequestBody"}}
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reset token send to mail",
+                        "content": {"application/json": {"schema": {"type": "string"}}}
+                    },
+                    "400": {"description": "Bad request"},
+                    "404": {"description": "Invalid email"}
+                }
+            }
+        },
+        "/auth/resetPassword/{resetPasswordToken}": {
+            "post": {
+                "tags": ["Authorization"],
+                "description": "Reset password",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {"schema": {"$ref": "#/components/schemas/resetPasswordRequestBody"}}
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password Reset Successfully",
+                        "content": {"application/json": {"schema": {"type": "string"}}}
+                    },
+                    "400": {"description": "Bad request or same previous password"},
+                    "404": {"description": "Invalid Reset Token"}
+                }
+            }
+        },
+        "/formulary/add": {
+            "post": {
+                "tags": ["Formulary"],
+                "description": "Add single formulary",
+                "security": [{"Authorization": []}],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {"schema": {"$ref": "#/components/schemas/formularyAddRequestBody"}}
                     }
                 },
                 "responses": {
                     "201": {
                         "description": "Formulary entity",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/formularyAddResponseBody"
-                                }
-                            }
+                            "application/json": {"schema": {"$ref": "#/components/schemas/formularyAddResponseBody"}}
                         }
                     },
-                    "400": {
-                        "description": "Bad request"
-                    }
+                    "400": {"description": "Bad request"},
+                    "409": {"description": "Already exists"}
                 }
             }
         },
         "/formulary/": {
             "get": {
-                "tags": [
-                    "Formulary"
-                ],
+                "tags": ["Formulary"],
                 "description": "Get many formulary",
-                "security": [
-                    {
-                        "Authorization": []
-                    }
-                ],
+                "security": [{"Authorization": []}],
                 "parameters": [
-                    {
-                        "in": "query",
-                        "name": "name",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "in": "query",
-                        "name": "currentPage",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "in": "query",
-                        "name": "perPage",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    }
+                    {"in": "query", "name": "formularyId", "required": false, "schema": {"type": "string"}},
+                    {"in": "query", "name": "brandName", "required": false, "schema": {"type": "string"}},
+                    {"in": "query", "name": "genericName", "required": false, "schema": {"type": "string"}},
+                    {"in": "query", "name": "currentPage", "required": false, "schema": {"type": "number"}},
+                    {"in": "query", "name": "perPage", "required": false, "schema": {"type": "number"}}
                 ],
                 "responses": {
                     "200": {
                         "description": "Pagination info and Formulary entity",
                         "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/paginatedFormularyEntity"
-                                }
-                            }
+                            "application/json": {"schema": {"$ref": "#/components/schemas/paginatedFormularyEntity"}}
                         }
                     },
-                    "400": {
-                        "description": "Bad request"
-                    },
-                    "404": {
-                        "description": "No data found"
-                    }
+                    "400": {"description": "Bad request"},
+                    "404": {"description": "No data found"}
                 }
             }
         },
         "/formulary/edit/{formularyId}": {
             "put": {
-                "tags": [
-                    "Formulary"
-                ],
-                "security": [
-                    {
-                        "Authorization": []
-                    }
-                ],
+                "tags": ["Formulary"],
+                "security": [{"Authorization": []}],
                 "description": "Edit single formulary",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "formularyId",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "required": true
-                    }
-                ],
+                "parameters": [{"in": "path", "name": "formularyId", "schema": {"type": "string"}, "required": true}],
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/formularyUpdateRequestBody"
-                            }
-                        }
+                        "application/json": {"schema": {"$ref": "#/components/schemas/formularyUpdateRequestBody"}}
                     }
                 },
                 "responses": {
@@ -141,55 +124,156 @@
                         "description": "Updated formulary entity",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "./Entities.json#/formularyEntity"
-                                }
+                                "schema": {"$ref": "http://localhost:8085/api/v1/docEntities#/formularyEntity"}
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad request"
-                    },
-                    "404": {
-                        "description": "No data found"
+                    "400": {"description": "Bad request"},
+                    "404": {"description": "No data found"}
+                }
+            }
+        },
+        "/inventory/add": {
+            "post": {
+                "tags": ["Inventory"],
+                "description": "Add single inventory",
+                "security": [{"Authorization": []}],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {"schema": {"$ref": "#/components/schemas/inventoryAddRequestBody"}}
                     }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Inventory entity",
+                        "content": {
+                            "application/json": {"schema": {"$ref": "#/components/schemas/inventoryAddResponseBody"}}
+                        }
+                    },
+                    "400": {"description": "Bad request"},
+                    "409": {"description": "Already exists"}
+                }
+            }
+        },
+        "/inventory/": {
+            "get": {
+                "tags": ["Inventory"],
+                "description": "Get many inventory",
+                "security": [{"Authorization": []}],
+                "parameters": [
+                    {"in": "query", "name": "ndc", "required": false, "schema": {"type": "string"}},
+                    {"in": "query", "name": "manufacturer", "required": false, "schema": {"type": "string"}},
+                    {"in": "query", "name": "lotNo", "required": false, "schema": {"type": "string"}},
+                    {"in": "query", "name": "expirationDate", "required": false, "schema": {"type": "string"}},
+                    {"in": "query", "name": "quantity", "required": false, "schema": {"type": "string"}},
+                    {"in": "query", "name": "formularyId", "required": false, "schema": {"type": "string"}},
+                    {"in": "query", "name": "currentPage", "required": false, "schema": {"type": "number"}},
+                    {"in": "query", "name": "perPage", "required": false, "schema": {"type": "number"}}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pagination info and Formulary entity",
+                        "content": {
+                            "application/json": {"schema": {"$ref": "#/components/schemas/paginatedInventoryEntity"}}
+                        }
+                    },
+                    "400": {"description": "Bad request"},
+                    "404": {"description": "No data found"}
+                }
+            }
+        },
+        "/inventory/edit/{inventoryId}": {
+            "put": {
+                "tags": ["Inventory"],
+                "description": "Edit single inventory",
+                "security": [{"Authorization": []}],
+                "parameters": [{"in": "path", "name": "inventoryId", "schema": {"type": "string"}, "required": true}],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {"schema": {"$ref": "#/components/schemas/inventoryUpdateRequestBody"}}
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Updated inventory entity",
+                        "content": {
+                            "application/json": {"schema": {"$ref": "#/components/schemas/inventoryUpdateResponseBody"}}
+                        }
+                    },
+                    "400": {"description": "Bad request"},
+                    "404": {"description": "No data found"}
+                }
+            }
+        },
+        "/inventory/{inventoryId}": {
+            "delete": {
+                "tags": ["Inventory"],
+                "description": "Remove single inventory",
+                "security": [{"Authorization": []}],
+                "parameters": [{"in": "path", "name": "inventoryId", "schema": {"type": "string"}, "required": true}],
+                "responses": {
+                    "204": {"description": "No content"},
+                    "400": {"description": "Bad request"},
+                    "404": {"description": "No data found"}
                 }
             }
         }
     },
     "components": {
-        "securitySchemes": {
-            "Authorization": {
-                "type": "apiKey",
-                "in": "header",
-                "name": "Authorization"
-            }
-        },
         "schemas": {
+            "loginRequestBody": {
+                "type": "object",
+                "properties": {
+                    "email": {"type": "string"},
+                    "password": {"type": "string"},
+                    "appVersin": {"type": "string"}
+                }
+            },
+            "loginResponseBody": {
+                "type": "object",
+                "properties": {
+                    "status": {"type": "string"},
+                    "token": {"type": "string"},
+                    "admin": {
+                        "type": "object",
+                        "properties": {
+                            "adminId": {"type": "string"},
+                            "firstName": {"type": "string"},
+                            "lastName": {"type": "string"},
+                            "email": {"type": "string"},
+                            "adminType": {"type": "string"}
+                        }
+                    }
+                }
+            },
+            "forgotPasswordRequestBody": {
+                "type": "object",
+                "properties": {"email": {"type": "string"}, "appVersin": {"type": "string"}}
+            },
+            "resetPasswordRequestBody": {
+                "type": "object",
+                "properties": {"password": {"type": "string"}, "confirmPassword": {"type": "string"}}
+            },
             "paginatedFormularyEntity": {
                 "type": "object",
                 "properties": {
                     "paginationInfo": {
                         "type": "object",
                         "properties": {
-                            "totalItems": {
-                                "type": "number"
-                            },
-                            "totalPages": {
-                                "type": "number"
-                            },
-                            "currentPage": {
-                                "type": "number"
-                            }
+                            "totalItems": {"type": "number"},
+                            "totalPages": {"type": "number"},
+                            "currentPage": {"type": "number"}
                         }
                     },
                     "rows": {
                         "type": "array",
                         "items": {
-                            "oneOf": [
-                                {
-                                    "$ref": "./Entities.json#/formularyEntity"
-                                }
+                            "allOf": [
+                                {"properties": {"adminId": {"type": "string"}}},
+                                {"properties": {"formularyId": {"type": "string"}}},
+                                {"$ref": "http://localhost:8085/api/v1/docEntities#/formularyEntity"}
                             ]
                         }
                     }
@@ -197,44 +281,95 @@
             },
             "formularyAddRequestBody": {
                 "type": "object",
-                "required": [
-                    "name",
-                    "strength",
-                    "unit",
-                    "formulation",
-                    "release",
-                    "drugClass",
-                    "isStock"
-                ],
-                "allOf": [
-                    {
-                        "$ref": "./Entities.json#/formularyEntity"
-                    }
-                ]
+                "required": ["drugName", "genericName", "strength", "formulation"],
+                "allOf": [{"$ref": "http://localhost:8085/api/v1/docEntities#/formularyEntity"}],
+                "oneOf": [{"properties": {"unit": {"type": "string"}, "mixedUnit": {"type": "string"}}}]
             },
             "formularyAddResponseBody": {
                 "type": "object",
                 "allOf": [
-                    {
-                        "properties": {
-                            "formularyId": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "$ref": "./Entities.json#/formularyEntity"
-                    }
+                    {"properties": {"formularyId": {"type": "string"}, "adminId": {"type": "string"}}},
+                    {"$ref": "http://localhost:8085/api/v1/docEntities#/formularyEntity"}
                 ]
             },
             "formularyUpdateRequestBody": {
                 "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "./Entities.json#/formularyEntity"
+                "allOf": [{"$ref": "http://localhost:8085/api/v1/docEntities#/formularyEntity"}]
+            },
+            "paginatedInventoryEntity": {
+                "type": "object",
+                "properties": {
+                    "paginationInfo": {
+                        "type": "object",
+                        "properties": {
+                            "totalItems": {"type": "number"},
+                            "totalPages": {"type": "number"},
+                            "currentPage": {"type": "number"}
+                        }
+                    },
+                    "rows": {
+                        "type": "array",
+                        "items": {
+                            "allOf": [
+                                {
+                                    "properties": {
+                                        "formularyId": {"type": "string"},
+                                        "inventoryId": {"type": "string"},
+                                        "adminId": {"type": "string"}
+                                    }
+                                },
+                                {"$ref": "http://localhost:8085/api/v1/docEntities#/inventoryEntity"},
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "formulary": {
+                                            "allOf": [
+                                                {"$ref": "http://localhost:8085/api/v1/docEntities#/formularyEntity"},
+                                                {"properties": {"formularyId": {"type": "string"}}}
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
                     }
+                }
+            },
+            "inventoryAddRequestBody": {
+                "type": "object",
+                "required": ["ndc", "manufacturer", "lotNo", "expirationDate", "quantity", "formularyId"],
+                "allOf": [
+                    {"properties": {"formularyId": {"type": "string"}}},
+                    {"$ref": "http://localhost:8085/api/v1/docEntities#/inventoryEntity"}
+                ]
+            },
+            "inventoryAddResponseBody": {
+                "type": "object",
+                "required": ["ndc", "manufacturer", "lotNo", "expirationDate", "quantity", "formularyId"],
+                "allOf": [
+                    {"properties": {"formularyId": {"type": "string"}}},
+                    {"$ref": "http://localhost:8085/api/v1/docEntities#/inventoryEntity"}
+                ]
+            },
+            "inventoryUpdateRequestBody": {
+                "type": "object",
+                "allOf": [
+                    {"properties": {"formularyId": {"type": "string"}}},
+                    {"$ref": "http://localhost:8085/api/v1/docEntities#/inventoryEntity"}
+                ]
+            },
+            "inventoryUpdateResponseBody": {
+                "type": "object",
+                "allOf": [
+                    {"properties": {"formularyId": {"type": "string"}, "inventoryId": {"type": "string"}}},
+                    {"$ref": "http://localhost:8085/api/v1/docEntities#/inventoryEntity"}
                 ]
             }
-        }
-    }
+        },
+        "securitySchemes": {"Authorization": {"type": "apiKey", "in": "header", "name": "Authorization"}}
+    },
+    "tags": {"0": {"name": "Inventory"}},
+    "openapi": "3.0.3",
+    "info": {"title": "VS FCH", "description": "Viral Solutions FirstClass Healthcare Api", "version": "0.1.0"},
+    "servers": [{"url": "http://localhost:8085/api/v1", "description": "Server url"}]
 }
