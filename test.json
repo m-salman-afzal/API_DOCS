@@ -124,7 +124,82 @@
                         "description": "Updated formulary entity",
                         "content": {
                             "application/json": {
-                                "schema": {"$ref": "http://localhost:8085/api/v1/docEntities#/formularyEntity"}
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "brandName": {
+                                            "type": "string"
+                                        },
+                                        "genericName": {
+                                            "type": "string"
+                                        },
+                                        "drugName": {
+                                            "type": "string"
+                                        },
+                                        "strength": {
+                                            "type": "string"
+                                        },
+                                        "formulation": {
+                                            "type": "string",
+                                            "enum": [
+                                                "tab",
+                                                "cap",
+                                                "supp",
+                                                "susp",
+                                                "vial",
+                                                "syr",
+                                                "ud",
+                                                "ptch",
+                                                "pck",
+                                                "pwdr",
+                                                "soln",
+                                                "odt",
+                                                "flm",
+                                                "oint",
+                                                "crm",
+                                                "ltn",
+                                                "shmp",
+                                                "blm",
+                                                "chw tab",
+                                                "gel",
+                                                "inh",
+                                                "neb soln",
+                                                "opth oint",
+                                                "opth soln",
+                                                "SL tab",
+                                                "Jelly",
+                                                "IV soln",
+                                                "otic soln",
+                                                "nasal spry",
+                                                "pwdr inh"
+                                            ]
+                                        },
+                                        "unit": {
+                                            "type": "string"
+                                        },
+                                        "mixedUnit": {
+                                            "type": "string"
+                                        },
+                                        "release": {
+                                            "type": "string"
+                                        },
+                                        "package": {
+                                            "type": "string"
+                                        },
+                                        "isGeneric": {
+                                            "type": "boolean"
+                                        },
+                                        "drugClass": {
+                                            "type": "string"
+                                        },
+                                        "isStock": {
+                                            "type": "boolean"
+                                        },
+                                        "minLevel": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
                             }
                         }
                     },
@@ -273,7 +348,82 @@
                             "allOf": [
                                 {"properties": {"adminId": {"type": "string"}}},
                                 {"properties": {"formularyId": {"type": "string"}}},
-                                {"$ref": "http://localhost:8085/api/v1/docEntities#/formularyEntity"}
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "brandName": {
+                                            "type": "string"
+                                        },
+                                        "genericName": {
+                                            "type": "string"
+                                        },
+                                        "drugName": {
+                                            "type": "string"
+                                        },
+                                        "strength": {
+                                            "type": "string"
+                                        },
+                                        "formulation": {
+                                            "type": "string",
+                                            "enum": [
+                                                "tab",
+                                                "cap",
+                                                "supp",
+                                                "susp",
+                                                "vial",
+                                                "syr",
+                                                "ud",
+                                                "ptch",
+                                                "pck",
+                                                "pwdr",
+                                                "soln",
+                                                "odt",
+                                                "flm",
+                                                "oint",
+                                                "crm",
+                                                "ltn",
+                                                "shmp",
+                                                "blm",
+                                                "chw tab",
+                                                "gel",
+                                                "inh",
+                                                "neb soln",
+                                                "opth oint",
+                                                "opth soln",
+                                                "SL tab",
+                                                "Jelly",
+                                                "IV soln",
+                                                "otic soln",
+                                                "nasal spry",
+                                                "pwdr inh"
+                                            ]
+                                        },
+                                        "unit": {
+                                            "type": "string"
+                                        },
+                                        "mixedUnit": {
+                                            "type": "string"
+                                        },
+                                        "release": {
+                                            "type": "string"
+                                        },
+                                        "package": {
+                                            "type": "string"
+                                        },
+                                        "isGeneric": {
+                                            "type": "boolean"
+                                        },
+                                        "drugClass": {
+                                            "type": "string"
+                                        },
+                                        "isStock": {
+                                            "type": "boolean"
+                                        },
+                                        "minLevel": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
                             ]
                         }
                     }
@@ -282,19 +432,248 @@
             "formularyAddRequestBody": {
                 "type": "object",
                 "required": ["drugName", "genericName", "strength", "formulation"],
-                "allOf": [{"$ref": "http://localhost:8085/api/v1/docEntities#/formularyEntity"}],
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "brandName": {
+                                "type": "string"
+                            },
+                            "genericName": {
+                                "type": "string"
+                            },
+                            "drugName": {
+                                "type": "string"
+                            },
+                            "strength": {
+                                "type": "string"
+                            },
+                            "formulation": {
+                                "type": "string",
+                                "enum": [
+                                    "tab",
+                                    "cap",
+                                    "supp",
+                                    "susp",
+                                    "vial",
+                                    "syr",
+                                    "ud",
+                                    "ptch",
+                                    "pck",
+                                    "pwdr",
+                                    "soln",
+                                    "odt",
+                                    "flm",
+                                    "oint",
+                                    "crm",
+                                    "ltn",
+                                    "shmp",
+                                    "blm",
+                                    "chw tab",
+                                    "gel",
+                                    "inh",
+                                    "neb soln",
+                                    "opth oint",
+                                    "opth soln",
+                                    "SL tab",
+                                    "Jelly",
+                                    "IV soln",
+                                    "otic soln",
+                                    "nasal spry",
+                                    "pwdr inh"
+                                ]
+                            },
+                            "unit": {
+                                "type": "string"
+                            },
+                            "mixedUnit": {
+                                "type": "string"
+                            },
+                            "release": {
+                                "type": "string"
+                            },
+                            "package": {
+                                "type": "string"
+                            },
+                            "isGeneric": {
+                                "type": "boolean"
+                            },
+                            "drugClass": {
+                                "type": "string"
+                            },
+                            "isStock": {
+                                "type": "boolean"
+                            },
+                            "minLevel": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                ],
                 "oneOf": [{"properties": {"unit": {"type": "string"}, "mixedUnit": {"type": "string"}}}]
             },
             "formularyAddResponseBody": {
                 "type": "object",
                 "allOf": [
                     {"properties": {"formularyId": {"type": "string"}, "adminId": {"type": "string"}}},
-                    {"$ref": "http://localhost:8085/api/v1/docEntities#/formularyEntity"}
+                    {
+                        "type": "object",
+                        "properties": {
+                            "brandName": {
+                                "type": "string"
+                            },
+                            "genericName": {
+                                "type": "string"
+                            },
+                            "drugName": {
+                                "type": "string"
+                            },
+                            "strength": {
+                                "type": "string"
+                            },
+                            "formulation": {
+                                "type": "string",
+                                "enum": [
+                                    "tab",
+                                    "cap",
+                                    "supp",
+                                    "susp",
+                                    "vial",
+                                    "syr",
+                                    "ud",
+                                    "ptch",
+                                    "pck",
+                                    "pwdr",
+                                    "soln",
+                                    "odt",
+                                    "flm",
+                                    "oint",
+                                    "crm",
+                                    "ltn",
+                                    "shmp",
+                                    "blm",
+                                    "chw tab",
+                                    "gel",
+                                    "inh",
+                                    "neb soln",
+                                    "opth oint",
+                                    "opth soln",
+                                    "SL tab",
+                                    "Jelly",
+                                    "IV soln",
+                                    "otic soln",
+                                    "nasal spry",
+                                    "pwdr inh"
+                                ]
+                            },
+                            "unit": {
+                                "type": "string"
+                            },
+                            "mixedUnit": {
+                                "type": "string"
+                            },
+                            "release": {
+                                "type": "string"
+                            },
+                            "package": {
+                                "type": "string"
+                            },
+                            "isGeneric": {
+                                "type": "boolean"
+                            },
+                            "drugClass": {
+                                "type": "string"
+                            },
+                            "isStock": {
+                                "type": "boolean"
+                            },
+                            "minLevel": {
+                                "type": "number"
+                            }
+                        }
+                    }
                 ]
             },
             "formularyUpdateRequestBody": {
                 "type": "object",
-                "allOf": [{"$ref": "http://localhost:8085/api/v1/docEntities#/formularyEntity"}]
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "brandName": {
+                                "type": "string"
+                            },
+                            "genericName": {
+                                "type": "string"
+                            },
+                            "drugName": {
+                                "type": "string"
+                            },
+                            "strength": {
+                                "type": "string"
+                            },
+                            "formulation": {
+                                "type": "string",
+                                "enum": [
+                                    "tab",
+                                    "cap",
+                                    "supp",
+                                    "susp",
+                                    "vial",
+                                    "syr",
+                                    "ud",
+                                    "ptch",
+                                    "pck",
+                                    "pwdr",
+                                    "soln",
+                                    "odt",
+                                    "flm",
+                                    "oint",
+                                    "crm",
+                                    "ltn",
+                                    "shmp",
+                                    "blm",
+                                    "chw tab",
+                                    "gel",
+                                    "inh",
+                                    "neb soln",
+                                    "opth oint",
+                                    "opth soln",
+                                    "SL tab",
+                                    "Jelly",
+                                    "IV soln",
+                                    "otic soln",
+                                    "nasal spry",
+                                    "pwdr inh"
+                                ]
+                            },
+                            "unit": {
+                                "type": "string"
+                            },
+                            "mixedUnit": {
+                                "type": "string"
+                            },
+                            "release": {
+                                "type": "string"
+                            },
+                            "package": {
+                                "type": "string"
+                            },
+                            "isGeneric": {
+                                "type": "boolean"
+                            },
+                            "drugClass": {
+                                "type": "string"
+                            },
+                            "isStock": {
+                                "type": "boolean"
+                            },
+                            "minLevel": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                ]
             },
             "paginatedInventoryEntity": {
                 "type": "object",
@@ -318,13 +697,107 @@
                                         "adminId": {"type": "string"}
                                     }
                                 },
-                                {"$ref": "http://localhost:8085/api/v1/docEntities#/inventoryEntity"},
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "ndc": {
+                                            "type": "string"
+                                        },
+                                        "manufacturer": {
+                                            "type": "string"
+                                        },
+                                        "lotNo": {
+                                            "type": "string"
+                                        },
+                                        "expirationDate": {
+                                            "type": "string"
+                                        },
+                                        "quantity": {
+                                            "type": "number"
+                                        }
+                                    }
+                                },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "formulary": {
                                             "allOf": [
-                                                {"$ref": "http://localhost:8085/api/v1/docEntities#/formularyEntity"},
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "brandName": {
+                                                            "type": "string"
+                                                        },
+                                                        "genericName": {
+                                                            "type": "string"
+                                                        },
+                                                        "drugName": {
+                                                            "type": "string"
+                                                        },
+                                                        "strength": {
+                                                            "type": "string"
+                                                        },
+                                                        "formulation": {
+                                                            "type": "string",
+                                                            "enum": [
+                                                                "tab",
+                                                                "cap",
+                                                                "supp",
+                                                                "susp",
+                                                                "vial",
+                                                                "syr",
+                                                                "ud",
+                                                                "ptch",
+                                                                "pck",
+                                                                "pwdr",
+                                                                "soln",
+                                                                "odt",
+                                                                "flm",
+                                                                "oint",
+                                                                "crm",
+                                                                "ltn",
+                                                                "shmp",
+                                                                "blm",
+                                                                "chw tab",
+                                                                "gel",
+                                                                "inh",
+                                                                "neb soln",
+                                                                "opth oint",
+                                                                "opth soln",
+                                                                "SL tab",
+                                                                "Jelly",
+                                                                "IV soln",
+                                                                "otic soln",
+                                                                "nasal spry",
+                                                                "pwdr inh"
+                                                            ]
+                                                        },
+                                                        "unit": {
+                                                            "type": "string"
+                                                        },
+                                                        "mixedUnit": {
+                                                            "type": "string"
+                                                        },
+                                                        "release": {
+                                                            "type": "string"
+                                                        },
+                                                        "package": {
+                                                            "type": "string"
+                                                        },
+                                                        "isGeneric": {
+                                                            "type": "boolean"
+                                                        },
+                                                        "drugClass": {
+                                                            "type": "string"
+                                                        },
+                                                        "isStock": {
+                                                            "type": "boolean"
+                                                        },
+                                                        "minLevel": {
+                                                            "type": "number"
+                                                        }
+                                                    }
+                                                },
                                                 {"properties": {"formularyId": {"type": "string"}}}
                                             ]
                                         }
@@ -340,7 +813,26 @@
                 "required": ["ndc", "manufacturer", "lotNo", "expirationDate", "quantity", "formularyId"],
                 "allOf": [
                     {"properties": {"formularyId": {"type": "string"}}},
-                    {"$ref": "http://localhost:8085/api/v1/docEntities#/inventoryEntity"}
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ndc": {
+                                "type": "string"
+                            },
+                            "manufacturer": {
+                                "type": "string"
+                            },
+                            "lotNo": {
+                                "type": "string"
+                            },
+                            "expirationDate": {
+                                "type": "string"
+                            },
+                            "quantity": {
+                                "type": "number"
+                            }
+                        }
+                    }
                 ]
             },
             "inventoryAddResponseBody": {
@@ -348,21 +840,78 @@
                 "required": ["ndc", "manufacturer", "lotNo", "expirationDate", "quantity", "formularyId"],
                 "allOf": [
                     {"properties": {"formularyId": {"type": "string"}}},
-                    {"$ref": "http://localhost:8085/api/v1/docEntities#/inventoryEntity"}
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ndc": {
+                                "type": "string"
+                            },
+                            "manufacturer": {
+                                "type": "string"
+                            },
+                            "lotNo": {
+                                "type": "string"
+                            },
+                            "expirationDate": {
+                                "type": "string"
+                            },
+                            "quantity": {
+                                "type": "number"
+                            }
+                        }
+                    }
                 ]
             },
             "inventoryUpdateRequestBody": {
                 "type": "object",
                 "allOf": [
                     {"properties": {"formularyId": {"type": "string"}}},
-                    {"$ref": "http://localhost:8085/api/v1/docEntities#/inventoryEntity"}
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ndc": {
+                                "type": "string"
+                            },
+                            "manufacturer": {
+                                "type": "string"
+                            },
+                            "lotNo": {
+                                "type": "string"
+                            },
+                            "expirationDate": {
+                                "type": "string"
+                            },
+                            "quantity": {
+                                "type": "number"
+                            }
+                        }
+                    }
                 ]
             },
             "inventoryUpdateResponseBody": {
                 "type": "object",
                 "allOf": [
                     {"properties": {"formularyId": {"type": "string"}, "inventoryId": {"type": "string"}}},
-                    {"$ref": "http://localhost:8085/api/v1/docEntities#/inventoryEntity"}
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ndc": {
+                                "type": "string"
+                            },
+                            "manufacturer": {
+                                "type": "string"
+                            },
+                            "lotNo": {
+                                "type": "string"
+                            },
+                            "expirationDate": {
+                                "type": "string"
+                            },
+                            "quantity": {
+                                "type": "number"
+                            }
+                        }
+                    }
                 ]
             }
         },
